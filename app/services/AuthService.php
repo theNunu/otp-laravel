@@ -28,13 +28,9 @@ class AuthService
         $data['password'] = Hash::make($data['password']);
         // crear usuario
         $user = $this->users->create($data);
-        // generar token
-        // $token = $this->generateToken();
-        // $this->users->update($user, ['api_token' => $token]);
 
         return [
             'user' => $user,
-            // 'token' => $token,
         ];
     }
 
@@ -47,28 +43,11 @@ class AuthService
                 'email' => ['Credenciales incorrectas.'],
             ]);
         }
-        // $token = $this->generateToken();
-        // $this->users->update($user, ['api_token' => $token]);
 
         return [
             'user' => $user,
-            // 'token' => $token,
+
         ];
     }
 
-    // public function logout(string $token)
-    // {
-    //     $user = $this->users->findByToken($token);
-    //     if ($user) {
-    //         $this->users->update($user, ['api_token' => null]);
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
-    // protected function generateToken(): string
-    // {
-    //     // token de 60 caracteres
-    //     return hash('sha256', Str::random(60) . now()->timestamp);
-    // }
 }

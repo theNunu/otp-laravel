@@ -55,22 +55,4 @@ class AuthController extends Controller
         ]);
     }
 
-    // public function logout(Request $request)
-    // {
-    //     $header = $request->header('Authorization'); // Bearer token
-    //     $token = null;
-    //     if ($header && preg_match('/Bearer\s+(.+)/', $header, $matches)) {
-    //         $token = $matches[1];
-    //     } else {
-    //         $token = $request->get('api_token');
-    //     }
-
-    //     if (!$token) {
-    //         return response()->json(['message' => 'Token no proporcionado.'], 400);
-    //     }
-
-    //     $this->authService->logout($token);
-
-    //     return response()->json(['message' => 'Cierre de sesión correcto.']);
-    // }
 }

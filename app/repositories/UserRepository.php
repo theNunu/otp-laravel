@@ -20,11 +20,6 @@ class UserRepository
         return User::where('email', $email)->first();
     }
 
-    // public function findByToken(string $token): ?User
-    // {
-    //     return User::where('api_token', $token)->first();
-    // }
-
     public function update(User $user, array $data): bool
     {
         return $user->update($data);
