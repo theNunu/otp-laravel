@@ -12,13 +12,21 @@ use Illuminate\Queue\SerializesModels;
 class MailableName extends Mailable
 {
     use Queueable, SerializesModels;
+    private $mi_otp;
+
+
+    public function generate_otp()
+    {
+        $otp = mt_rand(100000, 999999);
+        return $otp;
+    }
 
     /**
      * Create a new message instance.
      */
     public function __construct(private $name)
     {
-        //
+        $this->mi_otp = $this->generate_otp(); // Llama a la función en el constructor
     }
 
     /**
@@ -39,7 +47,10 @@ class MailableName extends Mailable
         return new Content(
             // view: 'view.name',
             view: 'mail.test-email',
-            with: ['name' => $this->name],
+            with: [
+                'name' => $this->name,
+                'mi_otp' => $this->mi_otp
+            ], // Pasa el OTP a la vista],
         );
     }
 

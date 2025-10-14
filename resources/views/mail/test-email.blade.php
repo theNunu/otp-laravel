@@ -72,7 +72,7 @@
             <p>Nos alegra que estés probando el sistema de correos con Laravel .</p>
             <p>Este es un ejemplo de correo enviado desde <strong>Mailtrap</strong> usando tu aplicación Laravel.</p>
 
-            tu otp es: <strong>wazaa</strong>
+            tu otp es: <strong>{{ $mi_otp }}</strong>
             
             {{-- <a href="#" class="btn">Explorar más</a> --}}
         </div>
