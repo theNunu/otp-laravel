@@ -42,7 +42,21 @@ class AuthService
 
         if (!$user || !Hash::check($data['password'], $user->password)) {
             return null;
+        }
 
+        return [
+            'user' => $user,
+            // 'contrasena del user' => $user->getAttributes()['password']
+        ];
+    }
+
+    public function reset(array $data)
+    {
+
+        $user = $this->users->findByEmail($data['email']);
+
+        if (!$user || !Hash::check($data['password'], $user->password)) {
+            return null;
         }
 
         return [

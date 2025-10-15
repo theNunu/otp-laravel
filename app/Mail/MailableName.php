@@ -9,10 +9,13 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
+use Carbon\Carbon;
+
 class MailableName extends Mailable
 {
     use Queueable, SerializesModels;
     private $mi_otp;
+    private $expires_at;
 
 
     public function generate_otp()
@@ -27,6 +30,7 @@ class MailableName extends Mailable
     public function __construct(private $name)
     {
         $this->mi_otp = $this->generate_otp(); // Llama a la función en el constructor
+        $this->expires_at = Carbon::now()->addMinutes(2);
     }
 
     /**
@@ -49,7 +53,8 @@ class MailableName extends Mailable
             view: 'mail.test-email',
             with: [
                 'name' => $this->name,
-                'mi_otp' => $this->mi_otp
+                'mi_otp' => $this->mi_otp,
+                'expires_at' => $this->expires_at->format('H:i:s')
             ], // Pasa el OTP a la vista],
         );
     }
