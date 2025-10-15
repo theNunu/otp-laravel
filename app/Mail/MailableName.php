@@ -16,21 +16,17 @@ class MailableName extends Mailable
     use Queueable, SerializesModels;
     private $mi_otp;
     private $expires_at;
+    
 
 
-    public function generate_otp()
-    {
-        $otp = mt_rand(100000, 999999);
-        return $otp;
-    }
 
     /**
      * Create a new message instance.
      */
-    public function __construct(private $name)
+    public function __construct(private $name,  $otp, $expires_at)
     {
-        $this->mi_otp = $this->generate_otp(); // Llama a la función en el constructor
-        $this->expires_at = Carbon::now()->addMinutes(2);
+        $this->mi_otp = $otp;
+        $this->expires_at = $expires_at;
     }
 
     /**
@@ -41,6 +37,30 @@ class MailableName extends Mailable
         return new Envelope(
             subject: 'Mailable Name',
         );
+    }
+
+    public function generate_otp()
+    {
+        // $otp = mt_rand(100000, 999999);
+        // return $otp;
+        return mt_rand(100000, 999999);
+    }
+
+
+    /**
+     * Devuelve el OTP generado.
+     */
+    public function getOtp()
+    {
+        return $this->mi_otp;
+    }
+
+    /**
+     * Devuelve el tiempo de expiración del OTP.
+     */
+    public function getExpiration()
+    {
+        return $this->expires_at;
     }
 
     /**

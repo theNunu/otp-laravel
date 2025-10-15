@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Mail\MailableName;
+use App\Models\Otp;
 use App\Models\User;
 use App\Services\AuthService;
 use App\Traits\ApiResponse;
@@ -67,12 +68,19 @@ class AuthController extends Controller
         }
     }
 
+    public function getOtps()
+    {
+
+        $otps = $this->authService->conseguirOtps();
+
+        return response()->json([
+            'data' => $otps
+        ]);
+    }
+
     public function sendOtp(LoginRequest $request)
     {
 
-        // Lógica para el restablecimiento (por ejemplo, generar un token de restablecimiento)
-        $name = "Alexis Cepeda"; // Esto podría venir de la solicitud o de la base de datos
-        $email = $request->input('email');
         try {
 
             $result = $this->authService->reset($request->validated());
@@ -80,8 +88,8 @@ class AuthController extends Controller
             if (!$result) {
                 return $this->invalidCredentialsResponse();
             }
-            // Enviar el correo usando la clase MailableName
-            Mail::to($email)->send(new MailableName($name));
+
+  
 
             return $this->successResponse($result, 'todo bien para el reseteo');
         } catch (\Exception $e) {
