@@ -8,7 +8,11 @@ class UserRepository
 {
 
     public function getUsers(){
-        return User::select('name', 'username')->get();
+        return User::select('id','name', 'username')->get();
+    }
+
+    public function getUserById(int $id){
+        return User::where('id', $id)->first();
     }
     public function create(array $data)
     {

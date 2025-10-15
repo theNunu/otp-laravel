@@ -31,23 +31,23 @@ class AuthService
 
         return [
             'user' => $user,
+            'contrasena del user' => $user['password']
         ];
     }
 
-    public function login(string $email, string $password)
+    public function login(array $data)
     {
-        $user = $this->users->findByEmail($email);
-        
-        if (!$user || !Hash::check($password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['Credenciales incorrectas.'],
-            ]);
+
+        $user = $this->users->findByEmail($data['email']);
+
+        if (!$user || !Hash::check($data['password'], $user->password)) {
+            return null;
+
         }
 
         return [
             'user' => $user,
-
+            // 'contrasena del user' => $user->getAttributes()['password']
         ];
     }
-
 }
