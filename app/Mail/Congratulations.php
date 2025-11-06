@@ -11,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
 
 use Carbon\Carbon;
 
-class MailableName extends Mailable
+class Congratulations extends Mailable
 {
     use Queueable, SerializesModels;
     private $mi_otp;
@@ -35,7 +35,7 @@ class MailableName extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'envio de otp',
+            subject: 'Mailable Name',
         );
     }
 
@@ -70,7 +70,7 @@ class MailableName extends Mailable
     {
         return new Content(
             // view: 'view.name',
-            view: 'mail.test-email',
+            view: 'mail.first-login',
             with: [
                 'name' => $this->name,
                 'mi_otp' => $this->mi_otp,
