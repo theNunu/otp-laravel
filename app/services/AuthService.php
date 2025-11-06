@@ -95,4 +95,41 @@ class AuthService
             // 'contrasena del user' => $user->getAttributes()['password']
         ];
     }
+
+    public function firstLogin(array $data)
+    {
+
+        $user = $this->users->findByEmail($data['email']);
+
+        if (!$user || !Hash::check($data['password'], $user->password)) {
+            return null;
+        }
+
+        // Lógica para el restablecimiento (por ejemplo, generar un token de restablecimiento)
+        $emailUser = $data['email']; // Esto podría venir de la solicitud o de la base de datos
+        $email = $data['email'];
+        $otp = mt_rand(100000, 999999);
+        $expiresAt = Carbon::now()->addMinutes(2);
+
+        // $mailable = new MailableName($emailUser);
+
+        // Guardar OTP en la base de datos
+        Otp::updateOrCreate(
+            ['email' => $data['email']],
+            [
+                'otp_code' => $otp,
+                'expires_at' =>  $expiresAt,
+            ]
+        );
+
+        // Enviar el correo usando la clase MailableName
+        Mail::to($email)->send(new MailableName($emailUser, $otp, $expiresAt));
+
+        return [
+            'user' => $user,
+            'otp_code' => $otp,
+            'expires_at' => $expiresAt->toDateTimeString()
+            // 'contrasena del user' => $user->getAttributes()['password']
+        ];
+    }
 }

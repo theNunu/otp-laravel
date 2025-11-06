@@ -89,9 +89,27 @@ class AuthController extends Controller
                 return $this->invalidCredentialsResponse();
             }
 
-  
 
-            return $this->successResponse($result, 'todo bien para el reseteo');
+
+            return $this->successResponse($result, 'ha sido enviado un codigo otp al correo');
+        } catch (\Exception $e) {
+            return $e;
+        }
+    }
+
+    public function firstLogin(LoginRequest $request)
+    {
+        try {
+
+            $result = $this->authService->reset($request->validated());
+
+            if (!$result) {
+                return $this->invalidCredentialsResponse();
+            }
+
+
+
+            return $this->successResponse($result, 'te has logeado por primera  vez,  felicidades');
         } catch (\Exception $e) {
             return $e;
         }

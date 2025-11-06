@@ -116,5 +116,6 @@ return [
 
     // ],
     'from' => ['address' => 'alexkiller0408@gmail.com', 'name' => 'App Name']
+    //no parece ser necesario cambiar el email aqui despues de todo
 
 ];
