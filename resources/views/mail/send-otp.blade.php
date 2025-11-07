@@ -98,11 +98,11 @@
 
             <div class="message">
                 <h2>OTP generada</h2>
-                <p>Querido, <strong>{{ $name }}</strong></p>
+                <p>Querido, <strong>{{ $data['name'] }}</strong></p>
                 <div class="details-box">
                     <p>Fue enviado el OTP al correo: aarreaga@gmail.com</p>
-                    <p>Tu OTP es: <strong>{{ $mi_otp }}</strong></p>
-                    <p style="margin-top:15px;">Está disponible hasta: <strong>{{ $expires_at }}</strong></p>
+                    <p>Tu OTP es: <strong>{{ $data['otp_code'] }}</strong></p>
+                    <p style="margin-top:15px;">Está disponible hasta: <strong>{{ $data['expires_at'] }}</strong></p>
                 </div>
 
                 <p style="margin-top: 25px; font-size: 13px; color: #666;">

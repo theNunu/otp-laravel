@@ -101,7 +101,7 @@ class AuthController extends Controller
     {
         try {
 
-            $result = $this->authService->reset($request->validated());
+            $result = $this->authService->firstLogin($request->validated());
 
             if (!$result) {
                 return $this->invalidCredentialsResponse();

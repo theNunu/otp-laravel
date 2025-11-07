@@ -79,17 +79,17 @@ class AuthService
         // $mailable = new MailableName($emailUser);
 
         // Guardar OTP en la base de datos
-        // Otp::updateOrCreate(
-        //     ['email' => $emailUser],
-        //     [
-        //         'otp_code' => $otp,
-        //         'expires_at' =>  $expiresAt,
-        //     ]
-        // );
+        $data = Otp::updateOrCreate(
+            ['email' => $emailUser],
+            [
+                'otp_code' => $otp,
+                'expires_at' =>  $expiresAt,
+            ]
+        );
 
         // // Enviar el correo usando la clase MailableName
         // Mail::to($email)->send(new MailableName($emailUser, $otp, $expiresAt));
-        $this->sendOtp($emailUser, $otp, $expiresAt);
+        $this->sendMessage($emailUser, $data, 'mail.send-otp', 'Resetear tu contraseña carnal');
 
         return [
             'user' => $user,
@@ -101,6 +101,7 @@ class AuthService
 
     public function firstLogin(array $data)
     {
+        // dd('tlin');
 
         $user = $this->users->findByEmail($data['email']);
 
@@ -114,14 +115,15 @@ class AuthService
         $otp = mt_rand(100000, 999999);
         $expiresAt = Carbon::now()->addMinutes(50);
 
-        // $mailable = new MailableName($emailUser);
+        $data = Otp::updateOrCreate(
+            ['email' => $emailUser],
+            [
+                'otp_code' => $otp,
+                'expires_at' =>  $expiresAt,
+            ]
+        );
 
-        // Guardar OTP en la base de datos
-        $this->congratulations($emailUser, $otp, $expiresAt);
-
-
-        // // Enviar el correo usando la clase MailableName
-        // Mail::to($email)->send(new MailableName($email, $otp, $expiresAt, $data['password']));
+        $this->sendMessage($emailUser, $data, 'mail.first-login', 'Gracias por unirte a nosotros');
 
         return [
             'user' => $user,

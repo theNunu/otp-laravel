@@ -14,8 +14,10 @@ use Carbon\Carbon;
 class MailableName extends Mailable
 {
     use Queueable, SerializesModels;
-    private $mi_otp;
-    private $expires_at;
+    private $data;
+    // private $expires_at;
+    public $view;
+    private $title;
     
 
 
@@ -23,10 +25,14 @@ class MailableName extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(private $name,  $otp, $expires_at)
+    public function __construct($data, $view, $title)
     {
-        $this->mi_otp = $otp;
-        $this->expires_at = $expires_at;
+        $this->data = $data;
+        $this->title = $title;
+        $this->view = $view;
+        // $this->expires_at = $expires_at;
+        // $this->mi_otp = $otp;
+        // $this->expires_at = $expires_at;
     }
 
     /**
@@ -35,33 +41,34 @@ class MailableName extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'envio de otp',
+            // subject: 'envio de otp',
+            subject: $this->title,
         );
     }
 
-    public function generate_otp()
-    {
-        // $otp = mt_rand(100000, 999999);
-        // return $otp;
-        return mt_rand(100000, 999999);
-    }
+    // public function generate_otp()
+    // {
+    //     // $otp = mt_rand(100000, 999999);
+    //     // return $otp;
+    //     return mt_rand(100000, 999999);
+    // }
 
 
     /**
      * Devuelve el OTP generado.
      */
-    public function getOtp()
-    {
-        return $this->mi_otp;
-    }
+    // public function getOtp()
+    // {
+    //     return $this->mi_otp;
+    // }
 
     /**
      * Devuelve el tiempo de expiración del OTP.
      */
-    public function getExpiration()
-    {
-        return $this->expires_at;
-    }
+    // public function getExpiration()
+    // {
+    //     return $this->expires_at;
+    // }
 
     /**
      * Get the message content definition.
@@ -70,11 +77,13 @@ class MailableName extends Mailable
     {
         return new Content(
             // view: 'view.name',
-            view: 'mail.test-email',
+            // view: 'mail.test-email',
+            view: $this->view,
             with: [
-                'name' => $this->name,
-                'mi_otp' => $this->mi_otp,
-                'expires_at' => $this->expires_at->format('H:i:s')
+                'data' => $this->data,
+                // 'name' => $this->name,
+                // 'mi_otp' => $this->mi_otp,
+                // 'expires_at' => $this->expires_at->format('H:i:s')
             ], // Pasa el OTP a la vista],
         );
     }
