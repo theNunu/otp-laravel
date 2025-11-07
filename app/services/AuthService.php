@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Mail\MailableName;
 use App\Models\Otp;
+use App\Models\User;
 use App\repositories\UserRepository;
 use App\Traits\SendEmail;
 use Carbon\Carbon;
@@ -115,6 +116,9 @@ class AuthService
         $otp = mt_rand(100000, 999999);
         $expiresAt = Carbon::now()->addMinutes(50);
 
+        $user = User::where('email', $emailUser)->first();
+        // dd($result->name);
+
         $data = Otp::updateOrCreate(
             ['email' => $emailUser],
             [
@@ -123,7 +127,12 @@ class AuthService
             ]
         );
 
-        $this->sendMessage($emailUser, $data, 'mail.first-login', 'Gracias por unirte a nosotros');
+        // ✅ Agregamos el nombre al arreglo que se enviará al correo
+        $otpDataArray = $data->toArray();
+        $otpDataArray['name'] = $user->name;
+        // dd($otpDataArray);
+
+        $this->sendMessage($emailUser, $otpDataArray, 'mail.first-login', 'Gracias por unirte a nosotros');
 
         return [
             'user' => $user,
