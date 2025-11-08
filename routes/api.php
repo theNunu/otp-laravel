@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\SlaveryController;
 use App\Mail\MailableName;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,10 @@ Route::get('/otps', [AuthController::class, 'getOtps']);
 
 Route::post('send-otp', [AuthController::class, 'sendOtp']);
 Route::post('first-login', [AuthController::class, 'firstLogin']);
+
+
+Route::get('slavery', [SlaveryController::class, 'index']);
+Route::post('slavery', [SlaveryController::class, 'store']);
 
 
 
